@@ -1,0 +1,738 @@
+{
+  "listen": {
+    "port": 3000
+  },
+  "agenda": {
+    "mongodb": {
+      "url": "mongodb://127.0.0.1:27017/ryfts"
+    }
+  },
+  "exchanges": {
+    "whitelist": ["USD", "BTC", "ETH"]
+  },
+  "ico": {
+    "ethereumAddress": "",
+    "sinceBitcoinBlock": 1196317,
+    "validSince": 0,
+    "validTill": 1514764800,
+    "bitcoin": {
+      "minConfirmations": 10
+    },
+    "ethereum": {
+      "fromAddress": "",
+      "gasPrice": "",
+      "gasLimit": "",
+      "abi": [
+        {
+          "constant": true,
+          "inputs": [],
+          "name": "collectedEthers",
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "payable": false,
+          "type": "function"
+        },
+        {
+          "constant": true,
+          "inputs": [],
+          "name": "name",
+          "outputs": [
+            {
+              "name": "",
+              "type": "string"
+            }
+          ],
+          "payable": false,
+          "type": "function"
+        },
+        {
+          "constant": false,
+          "inputs": [
+            {
+              "name": "_spender",
+              "type": "address"
+            },
+            {
+              "name": "_value",
+              "type": "uint256"
+            }
+          ],
+          "name": "approve",
+          "outputs": [
+            {
+              "name": "success",
+              "type": "bool"
+            }
+          ],
+          "payable": false,
+          "type": "function"
+        },
+        {
+          "constant": true,
+          "inputs": [],
+          "name": "creationBlock",
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "payable": false,
+          "type": "function"
+        },
+        {
+          "constant": true,
+          "inputs": [],
+          "name": "totalSupply",
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "payable": false,
+          "type": "function"
+        },
+        {
+          "constant": false,
+          "inputs": [
+            {
+              "name": "_icoSince",
+              "type": "uint256"
+            },
+            {
+              "name": "_icoTill",
+              "type": "uint256"
+            }
+          ],
+          "name": "setICOPeriod",
+          "outputs": [],
+          "payable": false,
+          "type": "function"
+        },
+        {
+          "constant": true,
+          "inputs": [],
+          "name": "icoTill",
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "payable": false,
+          "type": "function"
+        },
+        {
+          "constant": false,
+          "inputs": [
+            {
+              "name": "_locked",
+              "type": "bool"
+            }
+          ],
+          "name": "setLocked",
+          "outputs": [],
+          "payable": false,
+          "type": "function"
+        },
+        {
+          "constant": false,
+          "inputs": [
+            {
+              "name": "holder",
+              "type": "address"
+            },
+            {
+              "name": "value",
+              "type": "uint256"
+            }
+          ],
+          "name": "multivestBuy",
+          "outputs": [],
+          "payable": false,
+          "type": "function"
+        },
+        {
+          "constant": false,
+          "inputs": [
+            {
+              "name": "_from",
+              "type": "address"
+            },
+            {
+              "name": "_to",
+              "type": "address"
+            },
+            {
+              "name": "_value",
+              "type": "uint256"
+            }
+          ],
+          "name": "transferFrom",
+          "outputs": [
+            {
+              "name": "success",
+              "type": "bool"
+            }
+          ],
+          "payable": false,
+          "type": "function"
+        },
+        {
+          "constant": true,
+          "inputs": [],
+          "name": "decimals",
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint8"
+            }
+          ],
+          "payable": false,
+          "type": "function"
+        },
+        {
+          "constant": true,
+          "inputs": [
+            {
+              "name": "",
+              "type": "address"
+            }
+          ],
+          "name": "sentEthers",
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "payable": false,
+          "type": "function"
+        },
+        {
+          "constant": false,
+          "inputs": [],
+          "name": "icoFinished",
+          "outputs": [
+            {
+              "name": "",
+              "type": "bool"
+            }
+          ],
+          "payable": false,
+          "type": "function"
+        },
+        {
+          "constant": true,
+          "inputs": [],
+          "name": "goalMinSoldTokens",
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "payable": false,
+          "type": "function"
+        },
+        {
+          "constant": true,
+          "inputs": [],
+          "name": "isRefundAllowed",
+          "outputs": [
+            {
+              "name": "",
+              "type": "bool"
+            }
+          ],
+          "payable": false,
+          "type": "function"
+        },
+        {
+          "constant": false,
+          "inputs": [
+            {
+              "name": "_address",
+              "type": "address"
+            }
+          ],
+          "name": "unsetAllowedMultivest",
+          "outputs": [],
+          "payable": false,
+          "type": "function"
+        },
+        {
+          "constant": true,
+          "inputs": [],
+          "name": "icoSince",
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "payable": false,
+          "type": "function"
+        },
+        {
+          "constant": true,
+          "inputs": [
+            {
+              "name": "",
+              "type": "address"
+            }
+          ],
+          "name": "allowedMultivests",
+          "outputs": [
+            {
+              "name": "",
+              "type": "bool"
+            }
+          ],
+          "payable": false,
+          "type": "function"
+        },
+        {
+          "constant": false,
+          "inputs": [
+            {
+              "name": "holder",
+              "type": "address"
+            }
+          ],
+          "name": "refundFor",
+          "outputs": [
+            {
+              "name": "",
+              "type": "bool"
+            }
+          ],
+          "payable": false,
+          "type": "function"
+        },
+        {
+          "constant": false,
+          "inputs": [],
+          "name": "refund",
+          "outputs": [
+            {
+              "name": "",
+              "type": "bool"
+            }
+          ],
+          "payable": false,
+          "type": "function"
+        },
+        {
+          "constant": true,
+          "inputs": [],
+          "name": "standard",
+          "outputs": [
+            {
+              "name": "",
+              "type": "string"
+            }
+          ],
+          "payable": false,
+          "type": "function"
+        },
+        {
+          "constant": false,
+          "inputs": [
+            {
+              "name": "_address",
+              "type": "address"
+            }
+          ],
+          "name": "setAllowedMultivest",
+          "outputs": [],
+          "payable": false,
+          "type": "function"
+        },
+        {
+          "constant": true,
+          "inputs": [],
+          "name": "soldTokens",
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "payable": false,
+          "type": "function"
+        },
+        {
+          "constant": false,
+          "inputs": [
+            {
+              "name": "_value",
+              "type": "uint256"
+            }
+          ],
+          "name": "setTokenPrice",
+          "outputs": [],
+          "payable": false,
+          "type": "function"
+        },
+        {
+          "constant": true,
+          "inputs": [
+            {
+              "name": "",
+              "type": "address"
+            }
+          ],
+          "name": "balanceOf",
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "payable": false,
+          "type": "function"
+        },
+        {
+          "constant": false,
+          "inputs": [],
+          "name": "acceptOwnership",
+          "outputs": [],
+          "payable": false,
+          "type": "function"
+        },
+        {
+          "constant": true,
+          "inputs": [],
+          "name": "isIcoFinished",
+          "outputs": [
+            {
+              "name": "",
+              "type": "bool"
+            }
+          ],
+          "payable": false,
+          "type": "function"
+        },
+        {
+          "constant": true,
+          "inputs": [],
+          "name": "tokenPrice",
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "payable": false,
+          "type": "function"
+        },
+        {
+          "constant": true,
+          "inputs": [],
+          "name": "owner",
+          "outputs": [
+            {
+              "name": "",
+              "type": "address"
+            }
+          ],
+          "payable": false,
+          "type": "function"
+        },
+        {
+          "constant": true,
+          "inputs": [],
+          "name": "symbol",
+          "outputs": [
+            {
+              "name": "",
+              "type": "string"
+            }
+          ],
+          "payable": false,
+          "type": "function"
+        },
+        {
+          "constant": false,
+          "inputs": [
+            {
+              "name": "_to",
+              "type": "address"
+            },
+            {
+              "name": "_value",
+              "type": "uint256"
+            }
+          ],
+          "name": "transfer",
+          "outputs": [],
+          "payable": false,
+          "type": "function"
+        },
+        {
+          "constant": false,
+          "inputs": [
+            {
+              "name": "time",
+              "type": "uint256"
+            },
+            {
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "getBonusAmount",
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "payable": false,
+          "type": "function"
+        },
+        {
+          "constant": false,
+          "inputs": [
+            {
+              "name": "_spender",
+              "type": "address"
+            },
+            {
+              "name": "_value",
+              "type": "uint256"
+            },
+            {
+              "name": "_extraData",
+              "type": "bytes"
+            }
+          ],
+          "name": "approveAndCall",
+          "outputs": [
+            {
+              "name": "success",
+              "type": "bool"
+            }
+          ],
+          "payable": false,
+          "type": "function"
+        },
+        {
+          "constant": true,
+          "inputs": [],
+          "name": "locked",
+          "outputs": [
+            {
+              "name": "",
+              "type": "bool"
+            }
+          ],
+          "payable": false,
+          "type": "function"
+        },
+        {
+          "constant": false,
+          "inputs": [],
+          "name": "transferEthers",
+          "outputs": [],
+          "payable": false,
+          "type": "function"
+        },
+        {
+          "constant": true,
+          "inputs": [
+            {
+              "name": "",
+              "type": "address"
+            },
+            {
+              "name": "",
+              "type": "address"
+            }
+          ],
+          "name": "allowance",
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "payable": false,
+          "type": "function"
+        },
+        {
+          "constant": false,
+          "inputs": [
+            {
+              "name": "_newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "transferOwnership",
+          "outputs": [],
+          "payable": false,
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "name": "_tokenPrice",
+              "type": "uint256"
+            },
+            {
+              "name": "reserveAccount",
+              "type": "address"
+            },
+            {
+              "name": "reserveAmount",
+              "type": "uint256"
+            },
+            {
+              "name": "_icoSince",
+              "type": "uint256"
+            },
+            {
+              "name": "_icoTill",
+              "type": "uint256"
+            },
+            {
+              "name": "_goalMinSoldTokens",
+              "type": "uint256"
+            },
+            {
+              "name": "initialSupply",
+              "type": "uint256"
+            },
+            {
+              "name": "tokenName",
+              "type": "string"
+            },
+            {
+              "name": "tokenSymbol",
+              "type": "string"
+            },
+            {
+              "name": "multivestMiddleware",
+              "type": "address"
+            },
+            {
+              "name": "_locked",
+              "type": "bool"
+            }
+          ],
+          "payable": false,
+          "type": "constructor"
+        },
+        {
+          "payable": true,
+          "type": "fallback"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "holder",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "ethers",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "tokens",
+              "type": "uint256"
+            }
+          ],
+          "name": "Refund",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "multivest",
+              "type": "address"
+            }
+          ],
+          "name": "MultivestSet",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "multivest",
+              "type": "address"
+            }
+          ],
+          "name": "MultivestUnset",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "from",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "to",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "value",
+              "type": "uint256"
+            }
+          ],
+          "name": "Transfer",
+          "type": "event"
+        }
+      ]
+    }
+  },
+  "db": {
+    "mongo": {
+      "url": "mongodb://localhost/ryfts"
+    }
+  },
+  "blockchain": {
+    "bitcoin": {
+      "network": "testnet",
+      "hd": {
+        "masterPublicKey": "tpubDAenfwNu5GyCJWv8oqRAckdKMSUoZjgVF5p8WvQwHQeXjDhAHmGrPa4a4y2Fn7HF2nfCLefJanHV3ny1UY25MRVogizB2zRUdAo7Tr9XAjm"
+      },
+      "providers": {
+        "native": {
+          "network": "testnet",
+          "username": "test",
+          "password": "test"
+        }
+      }
+    },
+    "ethereum": {
+      "providers": {
+        "native": {
+          "url": "http://localhost:8545"
+        }
+      },
+      "listener": {
+        "sinceBlock": 930000
+      }
+    }
+  },
+  "logPath": "./logs"
+}
