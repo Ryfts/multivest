@@ -10,6 +10,21 @@
   "exchanges": {
     "whitelist": ["USD", "BTC", "ETH"]
   },
+  "email": {
+    "smtp": {
+      "host": "smtp.ethereal.email",
+      "port": 587,
+      "secure": false,
+      "auth": {
+        "user": "f4fe5spasxppxjjc@ethereal.email",
+        "pass": "VgnQptjfe3yaqJnM8F"
+      }
+    },
+    "from": "\"Test\" <test@example.com>",
+    "subject": "Hello ICO",
+    "text": "Welcom to ICO",
+    "html": "<b>Hello to ICO</b>"
+  },
   "ico": {
     "ethereumAddress": "",
     "sinceBitcoinBlock": 1196317,
@@ -717,6 +732,7 @@
       },
       "providers": {
         "native": {
+          "host": "bitcoin",
           "network": "testnet",
           "username": "test",
           "password": "test"
@@ -734,5 +750,9 @@
       }
     }
   },
+  "mailchimp": {
+    "apiKey": "",
+    "listId": ""
+  }
   "logPath": "./logs"
 }

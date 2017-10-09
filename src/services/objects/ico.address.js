@@ -1,4 +1,4 @@
-import { BITCOIN } from '../utils/constant';
+import { ETHEREUM, BITCOIN } from '../utils/constant';
 import BitcoinBlockchain from '../blockchain/bitcoin';
 import DatabaseService from '../db/database';
 

@@ -1,7 +1,11 @@
 import config from 'config';
+import logger from 'winston';
+import validator from 'email-validator';
 
-import { ETHEREUM } from '../services/utils/constant';
+import { BITCOIN, ETHEREUM } from '../services/utils/constant';
 import IcoAddressService from '../services/objects/ico.address';
+import IcoParticipantService from '../services/objects/ico.participant';
+import IcoEmailSubscriptionService from '../services/objects/ico.subscription';
 import EthereumService from '../services/blockchain/ethereum';
 import SmartContractService from '../services/ico/smart.contract';
 import Database from '../services/db/database';
@@ -9,6 +13,8 @@ import Database from '../services/db/database';
 export default class IcoController {
     constructor() {
         this.addressService = new IcoAddressService();
+        this.participantService = new IcoParticipantService();
+        this.emailSubscriptionService = new IcoEmailSubscriptionService();
         this.ethereumService = new EthereumService();
         this.smartContractService = new SmartContractService();
         this.database = new Database();
@@ -19,9 +25,21 @@ export default class IcoController {
      * /ico/addresses/eth:
      *   post:
      *     tags:
-     *       - Generate bitcoin address to participate in ico
+     *       - Post ethereum address to participate in ico
      *     produces:
      *       - application/json
+     *     parameters:
+     *     - name: body
+     *       in: body
+     *       description: contributor ethereum address
+     *       required: true
+     *       type: string
+     *       schema:
+     *         properties:
+     *           address:
+     *             type: string
+     *           acceptedTermsAndConditions:
+     *             type: boolean
      *     responses:
      *       200:
      *         schema:
@@ -30,9 +48,42 @@ export default class IcoController {
      *                type: string
      */
     getEthAddress(req, res, next) {
-        res.json({
-            icoAddress: config.get('ico.ethereumAddress'),
-        });
+        if(req.body.acceptedTermsAndConditions !== true) {
+            res.json({
+                error: "terms-and-conditions-required"
+            });
+
+            return;
+        }
+
+        if (! this.ethereumService.isValidAddress(req.body.address)) {
+            res.json({
+                error: 'not-valid-address',
+            });
+
+            return;
+        }
+
+        try {
+            this.participantService.create(ETHEREUM, req.body.address)
+                .then(() => {
+                    res.json({
+                        icoAddress: config.get('ico.ethereumAddress'),
+                    });
+                })
+                .catch((err) => {
+                    logger.error(err);
+
+                    res.json({
+                        error: 'internal-error',
+                    });
+                });
+        }
+        catch(err) {
+            logger.error(err);
+
+            next(err);
+        }
     }
 
     /**
@@ -43,10 +94,18 @@ export default class IcoController {
      *       - Generate bitcoin address to participate in ico
      *     produces:
      *       - application/json
-     *     schema:
-     *       properties:
-     *         address:
-     *           type: string
+     *     parameters:
+     *     - name: body
+     *       in: body
+     *       description: contributor ethereum address
+     *       required: true
+     *       type: string
+     *       schema:
+     *         properties:
+     *           address:
+     *             type: string
+     *           acceptedTermsAndConditions:
+     *             type: boolean
      *     responses:
      *       200:
      *         schema:
@@ -55,6 +114,14 @@ export default class IcoController {
      *                type: string
      */
     createBtcAddress(req, res, next) {
+        if(req.body.acceptedTermsAndConditions !== true) {
+            res.json({
+                error: "terms-and-conditions-required"
+            });
+
+            return;
+        }
+
         if (! this.ethereumService.isValidAddress(req.body.address)) {
             res.json({
                 error: 'not-valid-address',
@@ -64,20 +131,31 @@ export default class IcoController {
         }
 
         try {
+            let icoAddress;
+
             this.addressService.create(ETHEREUM, req.body.address)
-                .then((icoAddress) => {
+                .then((_icoAddress) => {
+                    icoAddress = _icoAddress;
+
+                    return this.participantService.create(ETHEREUM, req.body.address);
+                })
+                .then(() => {
                     res.json({
                         icoAddress: icoAddress.address,
                     });
                 })
                 .catch((err) => {
+                    logger.error(err);
+
                     res.json({
                         error: 'internal-error',
                     });
                 });
         }
         catch(err) {
-            console.log(err);
+            logger.erro(err);
+
+            next(err);
         }
     }
 
@@ -89,10 +167,6 @@ export default class IcoController {
      *       - Get ICO stats
      *     produces:
      *       - application/json
-     *     schema:
-     *       properties:
-     *         ethereumAddress:
-     *           type: string
      *     responses:
      *       200:
      *         schema:
@@ -112,11 +186,11 @@ export default class IcoController {
      *                    type: number
      */
     getStats(req, res, next) {
-
         this.smartContractService.getStats()
             .then(obj => res.json(obj))
             .catch(err => {
                 logger.error(`failed to get ico stats`, err);
+
                 next(err)
             });
         //
@@ -133,16 +207,12 @@ export default class IcoController {
 
     /**
      * @swagger
-     * /ico/status:
-     *   post:
+     * /ico/exchange:
+     *   get:
      *     tags:
-     *       - Generate bitcoin address to participate in ico
+     *       - Get currency exchange
      *     produces:
      *       - application/json
-     *     schema:
-     *       properties:
-     *         ethereumAddress:
-     *           type: string
      *     responses:
      *       200:
      *         schema:
@@ -162,5 +232,95 @@ export default class IcoController {
                 eth2usd: exchangRates.rates.ETH_USD,
             }))
             .catch(err => next(err));
+    }
+
+    /**
+     * @swagger
+     * /ico/email:
+     *   post:
+     *     tags:
+     *       - Subscribe email
+     *     parameters:
+     *     - name: body
+     *       in: body
+     *       description: contributor ethereum address
+     *       required: true
+     *       type: string
+     *       schema:
+     *         properties:
+     *           email:
+     *             type: string
+     *           network:
+     *             type: string
+     *             enum:
+     *               - ETHEREUM
+     *           address:
+     *             type: string
+     *     produces:
+     *       - application/json
+     *     responses:
+     *       204:
+     *         description: succeed
+     */
+    subscribe(req, res, next) {
+        //@TODO: validate email
+
+        if(! validator.validate(req.body.email)) {
+            res.json({
+                error: 'not-valid-email'
+            });
+
+            return;
+        }
+
+        if(req.body.network || req.body.address) {
+            if(req.body.network !== ETHEREUM) {
+                res.json({
+                    error: 'not-valid-network'
+                });
+
+                return;
+            }
+
+            if (! this.ethereumService.isValidAddress(req.body.address)) {
+                res.json({
+                    error: 'not-valid-address',
+                });
+
+                return;
+            }
+        }
+
+        try {
+            let promise;
+
+            if(req.body.network || req.body.address) {
+                promise = this.participantService
+                    .getParticipant(req.body.network, req.body.address);
+            }
+            else {
+                promise = Promise.resolve();
+            }
+
+            promise
+                .then((participant) => {
+                    return this.emailSubscriptionService.create(req.body.email, req.body.network, req.body.address)
+                        .then(() => {
+                            res.status(204).send();
+                        });
+                })
+                .catch((err) => {
+                    logger.error(err);
+
+                    res.json({
+                        error: 'internal-error',
+                    });
+                });
+        }
+        catch(err) {
+            logger.error(err);
+
+            next(err);
+        }
     }
 }

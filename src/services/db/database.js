@@ -41,6 +41,8 @@ export default class DatabaseService {
                         transactions: db.collection('transactions'),
                         exchanges: db.collection('exchanges'),
                         icoInvestments: db.collection('icoInvestments'),
+                        icoParticipants: db.collection('icoParticipants'),
+                        icoEmailSubscriptions: db.collection('icoEmailSubscriptions')
                     };
 
                     resolve(self.collections);
@@ -90,6 +92,41 @@ export default class DatabaseService {
                 return collections.icoAddresses.insert(obj);
             })
             .then(() => obj);
+    }
+
+    createICOParticipantAddress(network, address) {
+        const obj = {
+            network,
+            address,
+            createdAt: new Date()
+        };
+
+        return this.getCollections()
+            .then((collections) => {
+                return collections.icoParticipants.insert(obj)
+            })
+            .then(() => obj);
+    }
+
+    getICOParticipantAddress(network, address) {
+        return this.getCollections()
+            .then((collections) => {
+                return collections.icoParticipants.findOne({ network, address });
+            });
+    }
+
+    createEmailSubscription(email, network, address) {
+        return this.getCollections()
+            .then((collections) => {
+                return collections.icoEmailSubscriptions.insert({ email, network, address });
+            });
+    }
+
+    getEmailSubscription(email, network, address) {
+        return this.getCollections()
+            .then((collections) => {
+                return collections.icoEmailSubscriptions.find({ email, network, address });
+            });
     }
 
     getInvestmentAddressesForNetowrk(network) {
