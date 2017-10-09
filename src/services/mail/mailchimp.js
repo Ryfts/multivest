@@ -8,14 +8,23 @@ export default class MailchimpService {
         this.apiKey = config.get('mailchimp.apiKey');
         this.listId = config.get('mailchimp.listId');
 
-        this.mailchimp = new Mailchimp(this.apiKey);
+        if(this.apiKey.length > 0) {
+            this.mailchimp = new Mailchimp(this.apiKey);
+        }
     }
 
     subscribe(email) {
-        return mailchimp.post(`/lists/${ this.listId }/members`, {
-            email_address: email,
-            status : 'subscribed'
-        })
-        .catch((err) => logger.error(`failed to subscribe user with email ${email}`, err));
+        if(this.mailchimp) {
+            return mailchimp.post(`/lists/${ this.listId }/members`, {
+                email_address: email,
+                status : 'subscribed'
+            })
+                .catch((err) => logger.error(`failed to subscribe user with email ${email}`, err));
+        }
+        else {
+            logger.warn('mailchimp is disabled, set proper apiKey');
+
+            return Promise.resolve();
+        }
     }
 }
