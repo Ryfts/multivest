@@ -753,6 +753,6 @@
   "mailchimp": {
     "apiKey": "",
     "listId": ""
-  }
+  },
   "logPath": "./logs"
 }
