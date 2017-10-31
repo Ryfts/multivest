@@ -19,7 +19,7 @@ export default class IndexRouter extends express.Router {
         });
 
         // mount passport routes at /passport
-        this.use('/multivest', new IcoRoutes());
+        this.use('/ico', new IcoRoutes());
 
         this.use('/swagger', new SwaggerRoutes());
     }
