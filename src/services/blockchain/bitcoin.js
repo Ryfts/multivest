@@ -21,7 +21,7 @@ export default class BitcoinService extends AbstractBlockchain {
 
         const hdNode = bitcoin.HDNode.fromBase58(masterPublicKy, networkBip32);
 
-        return hdNode.derive(index).getAddress().toString();
+        return hdNode.derive(0).derive(index).getAddress().toString();
     }
 
     isValidAddress(address) {
