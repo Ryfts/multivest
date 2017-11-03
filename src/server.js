@@ -36,7 +36,7 @@ app.use(helmet());
 app.use(cors());
 
 // Routes
-app.use('/api', new Routes());
+app.use('/multivest', new Routes());
 
 // if error is not an instanceOf APIError, convert it.
 app.use((err, req, res, next) => {
