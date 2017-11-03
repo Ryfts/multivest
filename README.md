@@ -7,13 +7,15 @@ $ npm run build
 $ node dist/app.js
 ```
 
+or with pm2 installed and set: `pm2 start app`.
+
 ## Running requirements
- - Ethereum RPC client i.e. `geth --rpc`
+ - Ethereum RPC client i.e. `geth --rpc` with unlock arguments.
  
 It is required to create a new account on geth that is unlocked (fromAddress in config).
  
  - Bitcoin client like Bitcoin Core's daemon `bitcoind`.
- It is required to set `server=1` and `rpcuser=username` and `rpcpassword=password` in `bitcoin.conf` (login needed in config).
+ It is required to set `server=1`, `rest=1` and `rpcuser=username` and `rpcpassword=password` in `bitcoin.conf` (login needed in config).
 
 ## Configuration
 ICO related config
@@ -45,3 +47,10 @@ Ethereum client related config
 blockchain.ethereum.providers.native.url - geth json-rpc url
 blockchain.ethereum.listener.sinceBlock - since what block ico starts on ethereum
 ```
+
+### Other things to do
+* Set environment variable `PRODUCTION=1`.
+* Set `fromAddress` as allowed multivest address in the contract.
+* Send some ETH for the gas to `fromAddress`.
+* Set ICO timing in frontend widget.
+* Use Electrum wallet to generate addresses ([link](http://docs.electrum.org/en/latest/faq.html#how-can-i-pre-generate-new-addresses)) and master public key.
