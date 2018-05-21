@@ -21,6 +21,16 @@ It is required to create a new account on geth that is unlocked (fromAddress in 
  
  - Bitcoin client like Bitcoin Core's daemon `bitcoind`.
  It is required to set `server=1`, `rest=1` and `rpcuser=username` and `rpcpassword=password` in `bitcoin.conf` (login needed in config).
+ 
+ OR
+ 
+ - Bitcoin client like Electrum (recommended).
+ See [here](http://docs.electrum.org/en/latest/merchant.html) how to import watch only wallet.
+ Enable RPC: `electrum setconfig rpcport 7777`
+ Get RPC user info: `electrum getconfig rpcuser` and `electrum getconfig rpcpassword`.
+ Update those values in config.
+ 
+ - MongoDB
 
 ## Configuration
 ICO related config
