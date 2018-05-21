@@ -1,5 +1,10 @@
 # Ryfts Middleware
 
+## Requirements
+- Node.js
+- npm
+- build-essential & libsasl2-dev (needed in case of `node-gyp rebuild` error during `npm install`)
+
 ## Running
 ```sh
 $ npm install
