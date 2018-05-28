@@ -74,7 +74,7 @@ export default class SmartContract {
                 return this.icoContract.methods.collectedEthers().call();
             })
             .then((result) => {
-                stats.collected.eth = result.div(new BigNumber(10).pow(18)).toFixed(2);
+                stats.collected.eth = new BigNumber(result).div(new BigNumber(10).pow(18)).toFixed(2);
 
                 return this.database.getTotalInvstments('BITCOIN');
             })
