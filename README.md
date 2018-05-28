@@ -1,5 +1,10 @@
 # Ryfts Middleware
 
+## Requirements
+- Node.js
+- npm
+- build-essential & libsasl2-dev (needed in case of `node-gyp rebuild` error during `npm install`)
+
 ## Running
 ```sh
 $ npm install
@@ -11,11 +16,21 @@ or with pm2 installed and set: `pm2 start app`.
 
 ## Running requirements
  - Ethereum RPC client i.e. `geth --rpc` with unlock arguments.
- 
 It is required to create a new account on geth that is unlocked (fromAddress in config).
+
+ - MongoDB
  
  - Bitcoin client like Bitcoin Core's daemon `bitcoind`.
  It is required to set `server=1`, `rest=1` and `rpcuser=username` and `rpcpassword=password` in `bitcoin.conf` (login needed in config).
+ 
+ OR
+ 
+ - Bitcoin client like Electrum (recommended).
+ See [here](http://docs.electrum.org/en/latest/merchant.html) how to import watch only wallet.
+ Enable RPC: `electrum setconfig rpcport 8332`
+ Get RPC user info: `electrum getconfig rpcuser` and `electrum getconfig rpcpassword`.
+ Update those values in config.
+ 
 
 ## Configuration
 ICO related config
@@ -36,9 +51,10 @@ agenda.mongodb.url - mongodb connection url
 ```
 Bitcoin client related config
 ```
-blockchain.bitcoin.network - bitcoin network
+blockchain.bitcoin.network - bitcoin network (i.e. testnet)
 blcokchain.bitcoin.hd.masterPublicKey - bip32 master public key, that will be used to generate btc addresses for investings
-blockchain.bitcoin.providers.native.network - bitcoin network
+blockchain.bitcoin.providers.native.host - localhost
+blockchain.bitcoin.providers.native.network - bitcoin network (i.e. teestnet)
 blockchain.bitcoin.providers.native.username - bitcoin client rpc username
 blockchain.bitcoin.providers.native.password - bitcoin client rpc password
 ```
