@@ -43,17 +43,17 @@ export default class SmartContract {
         return this.icoContract.methods.getCurrentPhase(currentTime).call()
             .then(async (phaseNumber) => {
                 phase = await this.icoContract.methods.phases(phaseNumber).call();
-                tokensSold = phase.soldTokens;
+                tokensSold = new BigNumber(phase.soldTokens);
 
                 stats.tokensSold = tokensSold.div(precision).valueOf();
 
                 return this.icoContract.methods.balanceOf(config.get('ico.ethereumAddress')).call();
             })
             .then(async(result) => {
-                tokensForSale = result;
+                tokensForSale = new BigNumber(result);
                 stats.tokensForSale = tokensForSale.div(precision).valueOf();
 
-                const tokensSold = new BigNumber(stats.tokensSold);
+                tokensSold = new BigNumber(stats.tokensSold);
                 const allocatedTokensForSale = tokensSold.plus(stats.tokensForSale);
 
                 stats.soldPercentage = tokensSold.div(allocatedTokensForSale).toFixed(2);
