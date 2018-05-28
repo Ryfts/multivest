@@ -4,7 +4,7 @@ import web3 from 'web3';
 import BigNumber from 'bignumber.js';
 import contract from "truffle-contract";
 
-import ContractArtifact from '../../Ryfts.json';
+import ContractArtifact from '../Ryfts.json';
 import { ETHEREUM, BITCOIN } from '../services/utils/constant';
 import AbstractJob from './abstract.job';
 import DatabaseService from '../services/db/database';

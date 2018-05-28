@@ -12,6 +12,6 @@ export default class AddressRoutes extends express.Router {
         this.route('/addresses/btc').post(this.controller.createBtcAddress.bind(this.controller));
         this.route('/stats').get(this.controller.getStats.bind(this.controller));
         this.route('/exchange').get(this.controller.getExchange.bind(this.controller));
-        this.route('/email').post(this.controller.subscribe.bind(this.controller));
+        // this.route('/email').post(this.controller.subscribe.bind(this.controller));
     }
 }
