@@ -21,11 +21,11 @@ export default class DatabaseService {
 
         const self = this;
 
-        logger.info(`Mongodb url ${config.get('db.mongo.url')}`);
+        logger.info(`Mongodb url ${config.get('agenda.mongodb.url')}`);
 
         if (!this.connectionPromise) {
             this.connectionPromise = new Promise((resolve, reject) => {
-                MongoClient.connect(config.get('db.mongo.url'), (err, db) => {
+                MongoClient.connect(config.get('agenda.mongodb.url'), (err, db) => {
                     if (err) {
                         reject(err);
 

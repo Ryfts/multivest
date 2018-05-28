@@ -26,22 +26,17 @@
     "html": "<b>Hello to ICO</b>"
   },
   "ico": {
-    "ethereumAddress": "",
+    "ethereumAddress": "0x94b46eab6cc76a88884e65e60187802fcaa4f7eb",
     "sinceBitcoinBlock": 1196317,
-    "validSince": 0,
-    "validTill": 1514764800,
+    "validSince": 1527406400,
+    "validTill": 1527406400,
     "bitcoin": {
-      "minConfirmations": 10
+      "minConfirmations": 2
     },
     "ethereum": {
       "fromAddress": "",
       "gasPrice": "",
       "gasLimit": ""
-    }
-  },
-  "db": {
-    "mongo": {
-      "url": "mongodb://localhost/ryfts"
     }
   },
   "blockchain": {
@@ -52,9 +47,9 @@
       },
       "providers": {
         "native": {
-          "host": "bitcoin",
+          "host": "localhost",
           "network": "testnet",
-          "username": "test",
+          "username": "user",
           "password": "test"
         }
       }
