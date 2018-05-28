@@ -40,7 +40,7 @@ export default class SmartContract {
         const precision = new BigNumber(10).pow(18);
         const currentTime = new Date().getTime();
 
-        return this.icoContract.methods.getCurrentPhase(currentTime).call()
+        return this.icoContract.methods.getCurrentPhase(Math.round(currentTime / 1000)).call()
             .then(async (phaseNumber) => {
                 phase = await this.icoContract.methods.phases(phaseNumber).call();
                 tokensSold = new BigNumber(phase.soldTokens);
