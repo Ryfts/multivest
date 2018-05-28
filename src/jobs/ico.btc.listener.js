@@ -2,7 +2,9 @@ import config from 'config';
 import logger from 'winston';
 import web3 from 'web3';
 import BigNumber from 'bignumber.js';
+import contract from "truffle-contract";
 
+import ContractArtifact from '../../Ryfts.json';
 import { ETHEREUM, BITCOIN } from '../services/utils/constant';
 import AbstractJob from './abstract.job';
 import DatabaseService from '../services/db/database';
@@ -24,7 +26,8 @@ export default class IcoBTCListener extends AbstractJob {
 
         this.web3 = new web3();
 
-        this.icoContract = new this.web3.eth.Contract(config.get('ico.ethereum.abi'));
+        const abi = contract(ContractArtifact).abi;
+        this.icoContract = new this.web3.eth.Contract(abi);
 
         agenda.define('ico.btc.listener', (job, done) => {
             logger.info('BTC Listener: executing job');

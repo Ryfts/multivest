@@ -1,8 +1,9 @@
 import web3 from 'web3';
 import config from 'config';
-import logger from 'winston';
 import BigNumber from 'bignumber.js';
+import contract from "truffle-contract";
 
+import ContractArtifact from '../../Ryfts.json';
 import Database from '../db/database.js';
 
 export default class SmartContract {
@@ -13,7 +14,8 @@ export default class SmartContract {
 
         this.client = new web3(this.clientProvider);
 
-        this.icoContract = new this.client.eth.Contract(config.get('ico.ethereum.abi'), config.get('ico.ethereumAddress'));
+        const abi = contract(ContractArtifact).abi;
+        this.icoContract = new this.client.eth.Contract(abi, config.get('ico.ethereumAddress'));
     }
 
     getStats() {
@@ -34,18 +36,20 @@ export default class SmartContract {
         let contractBalance;
         let tokensSold;
         let tokensForSale;
+        let phase;
 
-        let precision = new BigNumber(10).pow(8);
+        let precision = new BigNumber(10).pow(18);
 
-        return this.icoContract.methods.soldTokens().call()
-            .then((result) => {
-                tokensSold = new BigNumber(result);
+        return this.icoContract.methods.getCurrentPhase(new Date().getTime()).call()
+            .then(async(phaseNumber) => {
+                phase = await this.icoContract.methods.phases(phaseNumber).call()
+                tokensSold = new BigNumber(phase.soldTokens);
 
                 stats.tokensSold = tokensSold.div(precision).valueOf();
 
                 return this.icoContract.methods.balanceOf(config.get('ico.ethereumAddress')).call();
             })
-            .then((result) => {
+            .then(async(result) => {
                 tokensForSale = new BigNumber(result);
 
                 stats.tokensForSale = tokensForSale.div(precision).valueOf();
@@ -55,7 +59,7 @@ export default class SmartContract {
 
                 stats.soldPercentage = tokensSold.div(allocatedTokensForSale).toFixed(2);
 
-                return this.icoContract.methods.tokenPrice().call();
+                return phase.price;
             })
             .then((result) => {
                 stats.tokenPrice = result.valueOf();
